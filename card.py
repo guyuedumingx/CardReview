@@ -82,16 +82,14 @@ class Cards():
     def read_one_by_no(self, no):
         try:
             card = self.cards[no]
+            self.cur = no + 1
         except:
             card = None 
+            self.cur = 1 
         return card
     
     def read_one(self):
         card = self.read_one_by_no(self.cur)
-        if card is None:
-            self.cur = 1 
-        else:
-            self.cur = self.cur + 1
         return card
 
     def write(self):

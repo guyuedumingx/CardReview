@@ -28,6 +28,19 @@ class Action():
         if not self.turn:
             self.card.sub_times()
         self.next()
+        
+    def select(self):
+        index = int(input("NO: "))
+        if(self.turn):
+            self.card = self.cards.read_one_by_no(index)
+            if self.card is not None:
+                self.turn = False
+                os.system('clear')
+                self.card.show()
+                print("--------------------------------------------------")
+        else:
+            self.turn = True
+            self.card.overturn()
 
     def next(self):
         if(self.turn):
@@ -49,7 +62,7 @@ class Action():
         os.system("clear")
         for i in self.cards.cards:
             card = self.cards.cards[i]
-            card.show()
+            print(str(card.no) + "  " + card.front.rstrip() + "\t--"+str(card.times))
             
     def previous(self):
         self.card.cur = self.card.cur - 1

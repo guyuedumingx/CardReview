@@ -76,6 +76,7 @@ if args['name'] is not None:
             '<ctrl>+n': action.add_times_next,
             '<ctrl>+h': action.sub_times_next,
             '<ctrl>+w': action.quit,
+            '<ctrl>+s': action.select,
             '<ctrl>+q' : action.quit,
             '<ctrl>+k' : action.previous,
             '<ctrl>+p' : action.pass_card,
