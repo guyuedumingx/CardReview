@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import argparse  
 import sys 
 import os
@@ -27,11 +29,11 @@ class InOut():
 
 
 ap = argparse.ArgumentParser()
-ap.add_argument("-n", "--name", help="choose which cards group to use")
+ap.add_argument("-r", "--review", action="store_true", help="review mode")
+ap.add_argument("-b", "--build", action="store_true", help="add a new groups")
 ap.add_argument("-l", "--list", action="store_true", help="show cards group list")
-ap.add_argument("-p", "--path", type=str, help="choose a file to load cards")
-ap.add_argument("-b", "--build", action="store_true", help="cards a new groups")
-ap.add_argument("-r", "--review", action="store_true", help="cards a new groups")
+ap.add_argument("-n", "--name", help="choose which cards group to use")
+ap.add_argument("-p", "--path", type=str, help="choose a path to load cards")
 args = vars(ap.parse_args())
 
 
@@ -70,9 +72,11 @@ if args['name'] is not None:
 
     with keyboard.GlobalHotKeys({
             '<ctrl>+a': action.add,
-            '<ctrl>+w': action.add_times_next,
+            '<ctrl>+j': action.add_times_next,
+            '<ctrl>+n': action.add_times_next,
             '<ctrl>+h': action.sub_times_next,
             '<ctrl>+q' : action.quit,
+            '<ctrl>+w' : action.quit,
             '<ctrl>+k' : action.previous,
             '<ctrl>+p' : action.pass_card,
             '<ctrl>+l' : action.show_card_list
