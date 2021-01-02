@@ -1,9 +1,30 @@
 import argparse  
 import sys 
 import os
-from build import *
 from pynput import keyboard
-from key import Key
+from action import *
+from card import *
+
+class InOut():
+    """
+    实现卡片的读入
+    """
+
+    def __init__(self, path):
+        self.path = path
+        self.groups = [] 
+
+    def card_groups_name(self):
+        for file in os.listdir(self.path):
+            if(file.endswith(".xml")):
+                self.groups.append(file) 
+        return self.groups
+
+    def has_groups(self, name):
+        file = name+".xml"
+        self.card_groups_name()
+        return file in self.groups
+
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-n", "--name", help="choose which cards group to use")
@@ -16,25 +37,21 @@ args = vars(ap.parse_args())
 
 path = sys.path[0]+"/res/"
 if args['path'] is not None:
-    path = args['path']
+    path = args['path']+"/"
 else:
     if not os.path.exists(path):
         os.makedirs(path)
-
-io = IO(path)
+in_out = InOut(path)
 
 if args['list'] is True:
-    for name in io.card_groups_name():
+    for name in in_out.card_groups_name():
         print(name.split('.')[0])
 
     
 if args['name'] is not None:
-    if args['review'] is True:
-        cards = Review(path + args['name'])
-    else:
-        cards = Cards(path + args['name'])
+    cards = Cards(args['name'], path)
 
-    if(io.has_groups(args['name'])):
+    if(in_out.has_groups(args['name'])):
         cards.read()
 
     elif args['build'] is True:
@@ -44,21 +61,22 @@ if args['name'] is not None:
         print("没有这个卡牌组! 请使用 -b 来新建卡组")
         sys.exit(0)
 
-
-
-
-    key = Key(cards)
     print("总共有:\t"+str(cards.len)+" 张卡牌")
 
+    if args['review'] is True:
+        action = Review_Action(cards)
+    else:
+        action = Action(cards)
+
     with keyboard.GlobalHotKeys({
-            '<ctrl>+a': key.add,
-            '<ctrl>+j': key.add_times_next,
-            '<ctrl>+h': key.sub_times_next,
-            '<ctrl>+w' : key.quit,
-            '<ctrl>+q' : key.quit,
-            '<ctrl>+k' : key.previous,
-            '<ctrl>+p' : key.pass_card,
-            '<ctrl>+l' : key.show_card_list
+            '<ctrl>+a': action.add,
+            '<ctrl>+w': action.add_times_next,
+            '<ctrl>+h': action.sub_times_next,
+            '<ctrl>+q' : action.quit,
+            '<ctrl>+k' : action.previous,
+            '<ctrl>+p' : action.pass_card,
+            '<ctrl>+l' : action.show_card_list
             }) as h:
         h.join()
+
 
