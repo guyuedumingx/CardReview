@@ -47,6 +47,7 @@ class Cards():
     def __init__(self, name, path):
         self.name = name
         self.path = path 
+        self.file = self.path+self.name+".xml"
         self.cards = {}
         self.len = 0
         self.cur = 0
@@ -54,7 +55,7 @@ class Cards():
     #读取卡组
     def read(self):
         try:
-            self.domTree = parse(self.path+self.name+".xml")
+            self.domTree = parse(self.file)
         except:
             self.build()
         self.root = self.domTree.documentElement
