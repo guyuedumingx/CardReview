@@ -1,2 +1,3 @@
 
 MAX_TIMES = 10 
+SPLIT_CHAR = '$'

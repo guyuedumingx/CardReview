@@ -135,6 +135,19 @@ class Cards():
         self.domTree = doc
         self.root = root
 
+    def load_cards_from_file_by_char(self, file, symbal=setting.SPLIT_CHAR):
+        lines = []
+        info = []
+        datas = ""
+        with open(file ,'r') as f:
+            lines = f.readlines()
+        for line in lines:
+            datas =datas + line
+        for data in datas.split(symbal):
+            if data != '':
+                info.append(data)
+        self.build_cards(info)
+
     def load_cards_from_file(self, file):
         lines = []
         card_info = []

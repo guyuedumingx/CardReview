@@ -113,6 +113,16 @@ class Review_Action(Action):
             self.card.show()
             print("--------------------------------------------------")
             self.now_answer()
+
+    def select(self):
+        index = int(input("NO: "))
+        self.card = self.cards.read_one_by_no(index)
+        if self.card is not None:
+            self.turn = False
+            os.system('clear')
+            self.card.show()
+            print("--------------------------------------------------")
+            self.now_answer()
     
     def now_answer(self):
         answer = self.read_in()

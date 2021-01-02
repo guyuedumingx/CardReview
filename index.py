@@ -34,6 +34,7 @@ ap.add_argument("-l", "--list", action="store_true", help="show cards group list
 ap.add_argument("-n", "--name", help="choose which cards group to use")
 ap.add_argument("-p", "--path", type=str, help="choose a path to load cards")
 ap.add_argument("-f", "--file", type=str, help="choose a file to load cards")
+ap.add_argument("-s", "--split", type=str, help="split by symbal")
 args = vars(ap.parse_args())
 
 
@@ -58,7 +59,10 @@ if args['name'] is not None:
 
     if args['file'] is not None:
         try:
-            cards.load_cards_from_file(args['file'])
+            if args['split'] is not None:
+                cards.load_cards_from_file_by_char(args['file'], args['split'])
+            else:
+                cards.load_cards_from_file(args['file'])
         except:
             print("没有这个文件")
             sys.exit(0)
