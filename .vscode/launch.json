@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "args": ["-n", "javaweb", "-f", "jsp_1.md"]
+            "args": ["-n", "jjj", "-f", "1_2.md"]
         }
     ]
 }

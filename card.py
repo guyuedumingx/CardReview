@@ -141,14 +141,20 @@ class Cards():
         lines = []
         card_info = []
         buf = ""
+        flag = False
         with open(file, 'r') as f:
             lines = f.readlines()
         for line in lines:
-            if "$" != line.rstrip():
+            if "$" != line.rstrip() and flag:
                 buf = buf + line.rstrip()+"\n"
             else:
-                if(buf != ""):
-                    card_info.append(buf)
+                if flag:
+                    if(buf != ""):
+                        card_info.append(buf)
+                        flag = False
+                else:
+                    if "$" == line.rstrip():
+                        flag = True
                 buf = ""
 
         self.build_cards(card_info)
