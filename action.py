@@ -62,7 +62,7 @@ class Action():
         print("back: ")
         back = self.read_in()
 
-        self.card = Card(self.cards.len, front, back, 0)
+        self.card = Card(self.cards.len+1, front, back, 0)
         self.cards.new_card(self.card) 
 
         print("添加成功!")

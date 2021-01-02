@@ -30,7 +30,6 @@ class InOut():
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-r", "--review", action="store_true", help="review mode")
-ap.add_argument("-b", "--build", action="store_true", help="add a new groups")
 ap.add_argument("-l", "--list", action="store_true", help="show cards group list")
 ap.add_argument("-n", "--name", help="choose which cards group to use")
 ap.add_argument("-p", "--path", type=str, help="choose a path to load cards")
@@ -56,15 +55,12 @@ if args['name'] is not None:
 
     if(in_out.has_groups(args['name'])):
         cards.read()
-
-    elif args['build'] is True:
         if args['file'] is not None:
-            cards.load_cards_from_file(args['file'])
-
-
-    else:
-        print("没有这个卡牌组! 请使用 -b 来新建卡组")
-        sys.exit(0)
+            try:
+                cards.load_cards_from_file(args['file'])
+            except:
+                print("没有这个文件")
+                sys.exit(0)
 
     print("总共有:\t"+str(cards.len)+" 张卡牌")
 
@@ -78,8 +74,8 @@ if args['name'] is not None:
             '<ctrl>+j': action.add_times_next,
             '<ctrl>+n': action.add_times_next,
             '<ctrl>+h': action.sub_times_next,
+            '<ctrl>+w': action.quit,
             '<ctrl>+q' : action.quit,
-            '<ctrl>+w' : action.quit,
             '<ctrl>+k' : action.previous,
             '<ctrl>+p' : action.pass_card,
             '<ctrl>+l' : action.show_card_list

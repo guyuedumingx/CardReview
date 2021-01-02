@@ -50,7 +50,7 @@ class Cards():
         self.file = self.path+self.name+".xml"
         self.cards = {}
         self.len = 0
-        self.cur = 0
+        self.cur = 1 
 
     #读取卡组
     def read(self):
@@ -89,7 +89,7 @@ class Cards():
     def read_one(self):
         card = self.read_one_by_no(self.cur)
         if card is None:
-            self.cur = 0
+            self.cur = 1 
         else:
             self.cur = self.cur + 1
         return card
@@ -118,10 +118,9 @@ class Cards():
         node.appendChild(back_node)
 
         self.root.appendChild(node)
-        self.len = self.len + 1
 
     def new_card(self, card):
-        self.add_card(card)
+        self.len = self.len + 1
         self.cards[card.no] = card
 
     def rebuild(self):
@@ -154,13 +153,14 @@ class Cards():
 
         self.build_cards(card_info)
 
+
     def build_cards(self, lines):
-        self.len = self.len + int(len(lines) / 2)
-        
-        for i in range(0, len(lines), 2):
-            card = Card(self.cur, lines[i], lines[i+1], 0)
-            self.cur = self.cur + 1
-            self.cards[card.no] = card
+        try:
+            for i in range(0, len(lines), 2):
+                card = Card(self.len+1, lines[i], lines[i+1], 0)
+                self.new_card(card)
+        except:
+            print("卡片的前后数量不匹配")
        
         
     
