@@ -47,7 +47,8 @@ class Action():
 
     def show_card_list(self):
         os.system("clear")
-        for card in self.cards.cards:
+        for i in self.cards.cards:
+            card = self.cards.cards[i]
             card.show()
             
     def previous(self):

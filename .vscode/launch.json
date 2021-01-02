@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "args": ["-n", "english", "-r"]
+            "args": ["-n", "english", "-b", "-f", "info.md"]
         }
     ]
 }

@@ -34,6 +34,7 @@ ap.add_argument("-b", "--build", action="store_true", help="add a new groups")
 ap.add_argument("-l", "--list", action="store_true", help="show cards group list")
 ap.add_argument("-n", "--name", help="choose which cards group to use")
 ap.add_argument("-p", "--path", type=str, help="choose a path to load cards")
+ap.add_argument("-f", "--file", type=str, help="choose a file to load cards")
 args = vars(ap.parse_args())
 
 
@@ -57,7 +58,9 @@ if args['name'] is not None:
         cards.read()
 
     elif args['build'] is True:
-        cards.build()
+        if args['file'] is not None:
+            cards.load_cards_from_file(args['file'])
+
 
     else:
         print("没有这个卡牌组! 请使用 -b 来新建卡组")

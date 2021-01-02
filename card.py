@@ -137,4 +137,34 @@ class Cards():
 
         self.domTree = doc
         self.root = root
-        self.len = 0
+
+    def load_cards_from_file(self, file):
+        lines = []
+        card_info = []
+        buf = ""
+        with open(file, 'r') as f:
+            lines = f.readlines()
+        for line in lines:
+            if "$" != line.rstrip():
+                buf = buf + line.rstrip()
+            else:
+                if(buf != ""):
+                    card_info.append(buf)
+                buf = ""
+
+        self.build_cards(card_info)
+
+    def build_cards(self, lines):
+        self.len = self.len + int(len(lines) / 2)
+        
+        for i in range(0, len(lines), 2):
+            card = Card(self.cur, lines[i], lines[i+1], 0)
+            self.cur = self.cur + 1
+            self.cards[card.no] = card
+       
+        
+    
+
+
+                
+
