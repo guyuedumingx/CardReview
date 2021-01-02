@@ -1,4 +1,5 @@
 from xml.dom.minidom import parse, Document
+import setting
 from card import Card
 import os
 import sys
@@ -25,7 +26,11 @@ class Cards():
             try:
                 front = node.getElementsByTagName("front")[0].childNodes[0].data
                 back = node.getElementsByTagName("back")[0].childNodes[0].data
-                card = Card(front, back)
+                times = node.getAttribute("times")
+                if int(times) >= setting.MAX_TIMES:
+                    continue
+
+                card = Card(front, back, times)
                 res.append(card)
             except:
                 continue
@@ -36,21 +41,25 @@ class Cards():
     def read_one(self):
 
         if self.cur >= self.len:
-            print("你已经复习完了!")
             self.write()
             self.cur = 0
 
-        card = self.cards[self.cur]
-        self.cur = self.cur + 1
+        try:
+            card = self.cards[self.cur]
+            self.cur = self.cur + 1
+        except:
+            card = None 
         return card
 
     def write(self):
+        self.rebuild()
         with open(self.file, 'w') as f:
             self.domTree.writexml(f, encoding='utf-8')
 
 
     def add_card(self, card):
         node = self.domTree.createElement("card") 
+        node.setAttribute("times", str(card.times))
 
         front_node = self.domTree.createElement("front")
         front_node_text = self.domTree.createTextNode(card.front)
@@ -65,9 +74,11 @@ class Cards():
 
         self.root.appendChild(node)
         self.len = self.len + 1
-        self.cards.append(card)
-        print("添加成功!")
 
+    def rebuild(self):
+        self.build()
+        for card in self.cards:
+            self.add_card(card)
 
     def build(self):
         doc = Document()  
