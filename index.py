@@ -55,12 +55,13 @@ if args['name'] is not None:
 
     if(in_out.has_groups(args['name'])):
         cards.read()
-        if args['file'] is not None:
-            try:
-                cards.load_cards_from_file(args['file'])
-            except:
-                print("没有这个文件")
-                sys.exit(0)
+
+    if args['file'] is not None:
+        try:
+            cards.load_cards_from_file(args['file'])
+        except:
+            print("没有这个文件")
+            sys.exit(0)
 
     print("总共有:\t"+str(cards.len)+" 张卡牌")
 

@@ -1,2 +1,2 @@
 
-MAX_TIMES = 5
+MAX_TIMES = 10 

@@ -145,7 +145,7 @@ class Cards():
             lines = f.readlines()
         for line in lines:
             if "$" != line.rstrip():
-                buf = buf + line.rstrip()
+                buf = buf + line.rstrip()+"\n"
             else:
                 if(buf != ""):
                     card_info.append(buf)
