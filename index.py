@@ -67,7 +67,8 @@ if args['name'] is not None:
             print("没有这个文件")
             sys.exit(0)
 
-    print("总共有:\t"+str(cards.len)+" 张卡牌")
+    print("总共有:\t"+str(cards.len+len(cards.complete))+" 张卡牌")
+    print("需要复习的有: "+ str(cards.len)+ " 张卡牌")
 
     if args['review'] is True:
         action = Review_Action(cards)

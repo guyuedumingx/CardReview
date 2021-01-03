@@ -48,7 +48,9 @@ class Cards():
         self.name = name
         self.path = path 
         self.file = self.path+self.name+".xml"
+        self.complete_file = self.path+self.name+"_complete.xml"
         self.cards = {}
+        self.complete = {}
         self.len = 0
         self.cur = 1 
 
@@ -68,11 +70,12 @@ class Cards():
                 back = node.getElementsByTagName("back")[0].childNodes[0].data
                 times = node.getAttribute("times")
                 no = node.getAttribute("no")
-                if int(times) >= setting.MAX_TIMES:
-                    continue
-
                 card = Card(no, front, back, times)
-                res[int(no)] = card
+
+                if int(times) >= setting.MAX_TIMES:
+                    self.complete[int(no)] = card
+                else:
+                    res[int(no)] = card
             except:
                 continue
 
@@ -96,7 +99,16 @@ class Cards():
         self.rebuild()
         with open(self.file, 'w') as f:
             self.domTree.writexml(f, encoding='utf-8')
+        self.write_complete()
 
+    def write_complete(self):
+        if len(self.complete) != 0:
+            self.build()
+            for no in self.complete:
+                self.add_card(self.complete[no])
+
+            with open(self.complete_file, 'w') as f:
+                self.domTree.writexml(f, encoding='utf-8')
 
     def add_card(self, card):
 
